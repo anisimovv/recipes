@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import Head from 'next/head';
+import Link from 'next/link';
 
 export default function HomePage() {
   return (
@@ -10,7 +11,7 @@ export default function HomePage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center">
-        <Button>Hello world</Button>
+        <Link href="/recipes"><Button>Hello world</Button></Link>
       </main>
     </>
   );
