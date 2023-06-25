@@ -6,12 +6,10 @@ const prisma = new PrismaClient();
 
 export default async function getAll(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const recipes: Recipe[] = await prisma.recipes.findMany();
-    res.status(200).json(recipes);
+    const response: Recipe[] = await prisma.recipe.findMany();
+    res.status(200).json(response);
   } catch (error: any) {
     console.error(error);
-    res.status(500).json({ error: 'Не удалось получить рецепты' });
-  } finally {
-    await prisma.$disconnect();
+    res.status(500).json({ error: 'Failed to get recipes' });
   }
 }
