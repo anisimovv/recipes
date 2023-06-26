@@ -8,11 +8,20 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { useDeleteRecipe } from '@/hooks/useDeleteRecipe';
 import { useRecipes } from '@/hooks/useRecipes';
 import Link from 'next/link';
 
 export default function RecipesPage() {
   const { data, isLoading } = useRecipes();
+
+  const Recipe = ({ recipeId }) => {
+    const deleteRecipeMutation = useDeleteRecipe();
+  }
+  
+    const handleDelete = () => {
+      deleteRecipeMutation.mutate(recipeId);
+    };
 
   if (isLoading || !data) {
     return <div>{isLoading}</div>;
