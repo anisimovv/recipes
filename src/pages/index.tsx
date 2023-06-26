@@ -11,7 +11,7 @@ export default function HomePage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center">
-        <Link href="/recipes"><Button>Hello world</Button></Link>
+        <Link href="/recipes"><Button>View recipes</Button></Link>
       </main>
     </>
   );

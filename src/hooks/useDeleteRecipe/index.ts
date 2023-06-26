@@ -2,33 +2,33 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import type { Recipe } from '@prisma/client';
 
-const deleteRecipe = async (recipeId: string): Promise<void> => {
+const deleteRecipe = async (recipeId: string) => {
   await axios.delete(`/api/recipe/${recipeId}`);
 };
 
 const useDeleteRecipe = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<void, unknown, string>({
-    mutationFn: deleteRecipe,
-    onMutate: async (recipeId: string) => {
-      await queryClient.cancelQueries(['recipes']);
+  return useMutation({
+      mutationFn: deleteRecipe,
+      onMutate: async (recipeId) => {
+          await queryClient.cancelQueries({ queryKey: ["recipes"] });
 
-      const previousRecipes = queryClient.getQueryData<Recipe[] | undefined>(['recipes']);
+          const previousRecipes = queryClient.getQueryData(["recipes"]);
 
-      queryClient.setQueryData<Recipe[] | undefined>(['recipes'], (oldRecipes) =>
-        oldRecipes?.filter((recipe) => recipe.id !== recipeId)
-      );
+          queryClient.setQueryData<Recipe[]>(["recipes"], (old) =>
+              (old ?? []).filter((recipe) => recipe.id !== recipeId)
+          );
 
-      return { previousRecipes };
-    },
-    onError: (err: unknown, recipeId: string, context: { previousRecipes?: Recipe[] }) => {
-      queryClient.setQueryData<Recipe[] | undefined>(['recipes'], context?.previousRecipes);
-    },
-    onSettled: async () => {
-        await queryClient.invalidateQueries(['recipes']);
-    },
+          return { previousRecipes };
+      },
+      onError: (err, recipeId, context) => {
+          queryClient.setQueryData(["recipes"], context?.previousRecipes);
+      },
+      onSettled: async () => {
+        await queryClient.invalidateQueries({ queryKey: ["recipes"] });
+      },
   });
 };
 
-export {useDeleteRecipe};
+export { useDeleteRecipe }
