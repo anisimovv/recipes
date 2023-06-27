@@ -3,7 +3,7 @@ import { TableCell } from './ui/table';
 import { Button } from './ui/button';
 import DialogUpdate from './DialogUpdate';
 import type { Recipe } from '@prisma/client';
-import Link from 'next/link';
+import Link from 'next/link';``
 import { useDeleteRecipe } from '@/hooks/useDeleteRecipe';
 
 interface Props {
