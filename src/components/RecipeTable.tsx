@@ -9,26 +9,25 @@ import React, { useState } from 'react';
 import DialogCreate from './DialogCreate';
 import RecipeItem from './RecipeItem';
 import HeaderTable from './HeaderTable';
+import PaginationButtons from './PaginationButtons';
 
 export default function RecipeTable() {
-  const [page, setPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const perPage = 10; 
-  const { data, isLoading } = useRecipes({page, perPage});
+  const { data, isLoading } = useRecipes({currentPage, perPage});
 
   if (isLoading || !data) {
     return <div>{isLoading}</div>;
   }
+  
 
   return (
     <Table className="rounded-md bg-slate-300">
-      <TableCaption>
-        <button onClick={()=> setPage((prev) => prev < (data.count / perPage) ? prev + 1 : prev )}>NEXT</button>
-        <p>{data.count}</p>        
-        <button onClick={()=> setPage((prev) => prev > 1 ? prev - 1 : prev )}>PREV</button>
-        <DialogCreate
-          title="Create recipe here"
-          openTrigger="Add new recipe"
-          closeTrigger="Create recipe"
+      <TableCaption>        
+        <PaginationButtons 
+            currentPage={currentPage}
+            totalPages={Math.ceil(data.count / perPage)}
+            setCurrentPage={setCurrentPage}
         />
       </TableCaption>
       <HeaderTable />

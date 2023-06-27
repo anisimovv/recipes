@@ -7,15 +7,15 @@ interface ResponseRecipe {
     count: number;
 }
 
-const fetchAll = async (page: number, perPage: number): Promise<ResponseRecipe> => {
+const fetchAll = async (currentPage: number, perPage: number): Promise<ResponseRecipe> => {
   const response = await axios.get(
-    `/api/recipes?page=${page}&per_page=${perPage}`
+    `/api/recipes?page=${currentPage}&per_page=${perPage}`
   );
   return response.data as ResponseRecipe;
 };
 
-const useRecipes = ({page = 1, perPage = 10}) => {
-  return useQuery(['recipes', page, perPage], () => fetchAll(page, perPage));
+const useRecipes = ({currentPage = 1, perPage = 10}) => {
+  return useQuery(['recipes', currentPage, perPage], () => fetchAll(currentPage, perPage));
 };
 
 export { useRecipes };
